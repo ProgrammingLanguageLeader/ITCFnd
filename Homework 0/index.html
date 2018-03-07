@@ -7,50 +7,43 @@
 <body>
     <script type="text/javascript">
         function plus() {
-            var sum = 0;
-            for (var i = 0; i < arguments.length; i++) {
+            let sum = 0;
+            for (let i = 0; i < arguments.length; i++) {
                 sum += arguments[i];
             }
             return sum;
         }
 
-        console.log( 'plus(1, 2) = ' + plus(1, 2) );
-        console.log( 'plus(2, 3, 5, 7, 3) = ' + plus(2, 3, 5, 7, 3) );
+        console.log( `plus(1, 2) = ${plus(1, 2)}` );
+        console.log( `plus(2, 3, 5, 7, 3) = ${plus(2, 3, 5, 7, 3)}` );
 
         function multiply(a, b) {
-            var product = 0;
-            for (var i = 0; i < b; i++) {
-                product = plus(product, a)
+            let product = 0;
+            for (let i = 0; i < b; i++) {
+                product = plus(product, a);
             }
             return product;
         }
 
         function multiplyAll() {
-            var args = Array.from(arguments);
+            let args = Array.from(arguments);
             return args.reduce(multiply);
         }
 
-        console.log( 'multiply(3, 10) = ' + multiply(3, 10) );
-        console.log(
-            'multiplyAll(2, 3, 5, 7, 3) = ' +
-            multiplyAll(2, 3, 5, 7, 3)
-        );
+        console.log( `multiply(3, 10) = ${multiply(3, 10)}` );
+        console.log( `multiplyAll(2, 3, 5, 7, 3) = ${multiplyAll(2, 3, 5, 7, 3)}` );
 
         function mergeArrays(array1, array2) {
-            var resultArray = array1.slice();
+            let resultArray = array1.slice();
             return array1.concat(array2);
         }
 
-        console.log(
-            'mergeArrays([1, 2, 3], [4, 5]) = [' +
-            mergeArrays([1, 2, 3], [4, 5]).toString() + ']'
-        );
+        console.log( `mergeArrays([1, 2, 3], [4, 5]) = [${mergeArrays([1, 2, 3], [4, 5]).toString()}]` );
 
         function objectToQueryString(params) {
-            var queryString = '';
-            for (var property in params) {
-                queryString += property + '=' + 
-                params[property] + '&';
+            let queryString = '';
+            for (let property in params) {
+                queryString += `${property}=${params[property]}&`;
             }
             queryString = queryString.slice(0, -1);
             return encodeURI(queryString);
@@ -62,7 +55,7 @@
             ) 
         );
 
-        var people = [
+        const people = [
             {
                 sex: 'male',
                 name: 'Dmitry',
@@ -86,15 +79,20 @@
         ];
 
         function filterFemales(people) {
-            return people.filter(person => person.sex == 'female');
+            return people.filter( person => person.sex == 'female' );
         }
 
-        console.log( 'filterFemales(people) = [' );
-        var females = filterFemales(people);
-        for (var i = 0; i < females.length; i++) {
-            console.log( females[i].name + ' ' + females[i].favoriteFilm );
+        let females = filterFemales(people);
+        let femalesInfoArray = females.map(function(woman) {
+            return `${woman.name} - ${woman.favoriteFilm}`;
+        });
+        let femalesInfoString = '';
+        for (let i = 0; i < femalesInfoArray.length; i++) {
+            femalesInfoString += femalesInfoArray[i] + ', ';
         }
-        console.log( ']' );
+        femalesInfoString = femalesInfoString.slice(0, femalesInfoString.length - 2);
+        let filterFemalesOutput = `filterFemales(people) = [${femalesInfoString}]`;
+        console.log( filterFemalesOutput );
 
         const AXIS_POINT = 0;
         function getQuadrant(x, y) {
@@ -112,11 +110,11 @@
             }
             return AXIS_POINT;
         }
-        console.log( 'getQuadrant(1, -1) = ' + getQuadrant( 1, -1 ) );
+        console.log( `getQuadrant(1, -1) = ${getQuadrant( 1, -1 )}` );
 
         function getIn(obj, path, defaultValue) {
             if (obj && path.length) {
-                var property = path[0];
+                let property = path[0];
                 path = path.slice(1);
                 return getIn( obj[property], path, defaultValue );
             } else if (!obj) {
