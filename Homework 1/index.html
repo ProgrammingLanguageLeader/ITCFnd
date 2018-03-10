@@ -8,35 +8,47 @@
     <title>Homework 1</title>
 </head>
 <body>
-    <div id="posts">
-
-    </div>
+    <div id="loader"></div>
+    <div id="posts"></div>
     <script type="text/javascript">
-        let posts = fetchPosts();
-        var divPosts = document.getElementById('posts');
-        posts.then(posts => {
-            for (let i = 0; i < posts.length; i++) {
-                let title = posts[i].data.title;
-                let permalink = posts[i].data.permalink;
-                let image = posts[i].data.thumbnail;
-                let card;
-                if (image != 'default') {
-                    card =
-                    `<div class="post">
-                        <p>${title}</p>
-                        <a href="https://reddit.com/${permalink}">Original</a>
-                        <img src="${image}" alt="There must be an image">
-                    </div>`;
-                } else {
-                    card = `<div class="post">
-                        <p>${title}</p>
-                        <a href="https://reddit.com/${permalink}">Original</a>
-                    </div>`;
-                }
-                divPosts.innerHTML += card + '<hr>';
-                console.log(`${title} - ${permalink} - ${image}`);
-            }
-        });
+        const refreshTime = 10000;
+
+        let timer = setTimeout( function tick() {
+            let posts = fetchPosts();
+            let divPosts = document.getElementById('posts');
+            let loader = document.getElementById('loader');
+
+            posts.then(posts => {
+                loader.style.display = 'block';
+                let postsHTML = '';
+                posts.map( (post) => {
+                    let title = post.data.title;
+                    let permalink = post.data.permalink;
+                    let thumbnail = post.data.thumbnail;
+                    let card;
+                    if (thumbnail != 'default') {
+                        card =
+                        `<div class="post-with-thumbnail">
+                            <img src="${thumbnail}" alt="There must be an image">
+                            <a href="https://reddit.com/${permalink}">
+                                <p>${title}</p>
+                            </a>
+                        </div>`;
+                    } else {
+                        card = `
+                        <div class="post-without-thumbnail">
+                            <a href="https://reddit.com/${permalink}">
+                                <p>${title}</p>
+                            </a>
+                        </div>`;
+                    }
+                    postsHTML += card;
+                });
+                divPosts.innerHTML = postsHTML;
+                loader.style.display = 'none';
+            });
+            timer = setTimeout(tick, refreshTime);
+        }, 0);
     </script>
 </body>
 </html>
