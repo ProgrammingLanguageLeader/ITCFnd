@@ -49,10 +49,10 @@
             return encodeURI(queryString);
         }
 
-        console.log( 
+        console.log(
             objectToQueryString(
                 { name1: 'John', name2: 'Федор' }
-            ) 
+            )
         );
 
         const people = [
@@ -92,7 +92,7 @@
         }
         femalesInfoString = femalesInfoString.slice(0, femalesInfoString.length - 2);
         let filterFemalesOutput = `filterFemales(people) = [${femalesInfoString}]`;
-        console.log( filterFemalesOutput );
+        console.log(filterFemalesOutput);
 
         const AXIS_POINT = 0;
         function getQuadrant(x, y) {
@@ -110,7 +110,12 @@
             }
             return AXIS_POINT;
         }
-        console.log( `getQuadrant(1, -1) = ${getQuadrant( 1, -1 )}` );
+        let quadrant = getQuadrant(1, -1);
+        if (quadrant != AXIS_POINT) {
+            console.log( `getQuadrant(1, -1) = ${quadrant}` );
+        } else {
+            console.log('Point is on the coordinate axis');
+        }
 
         function getIn(obj, path, defaultValue) {
             if (obj && path.length) {
