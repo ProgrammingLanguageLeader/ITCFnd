@@ -6,11 +6,11 @@
 </head>
 <body>
     <script type="text/javascript">
-        function plus() {
+        function plus(...rest) {
             let sum = 0;
-            for (let i = 0; i < arguments.length; i++) {
-                sum += arguments[i];
-            }
+            rest.forEach( (arg) => {
+                sum += arg;
+            });
             return sum;
         }
 
@@ -25,16 +25,14 @@
             return product;
         }
 
-        function multiplyAll() {
-            let args = Array.from(arguments);
-            return args.reduce(multiply);
+        function multiplyAll(...rest) {
+            return rest.reduce(multiply);
         }
 
         console.log( `multiply(3, 10) = ${multiply(3, 10)}` );
         console.log( `multiplyAll(2, 3, 5, 7, 3) = ${multiplyAll(2, 3, 5, 7, 3)}` );
 
         function mergeArrays(array1, array2) {
-            let resultArray = array1.slice();
             return array1.concat(array2);
         }
 

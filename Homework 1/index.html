@@ -13,8 +13,8 @@
     <script type="text/javascript">
         const refreshTime = 10000;
 
-        let timer = setTimeout( function tick() {
-            let posts = fetchPosts();
+        setTimeout( function tick() {
+            const posts = fetchPosts();
             let divPosts = document.getElementById('posts');
             let loader = document.getElementById('loader');
 
@@ -22,12 +22,11 @@
                 loader.style.display = 'block';
                 let postsHTML = '';
                 posts.map( (post) => {
-                    let title = post.data.title;
-                    let permalink = post.data.permalink;
-                    let thumbnail = post.data.thumbnail;
-                    let card;
+                    const { title } = post.data;
+                    const { permalink } = post.data;
+                    const { thumbnail } = post.data;
                     if (thumbnail != 'default') {
-                        card =
+                        postsHTML +=
                         `<div class="post-with-thumbnail">
                             <img src="${thumbnail}" alt="There must be an image">
                             <a href="https://reddit.com/${permalink}">
@@ -35,19 +34,18 @@
                             </a>
                         </div>`;
                     } else {
-                        card = `
+                        postsHTML += `
                         <div class="post-without-thumbnail">
                             <a href="https://reddit.com/${permalink}">
                                 <p>${title}</p>
                             </a>
                         </div>`;
                     }
-                    postsHTML += card;
                 });
                 divPosts.innerHTML = postsHTML;
                 loader.style.display = 'none';
             });
-            timer = setTimeout(tick, refreshTime);
+            setTimeout(tick, refreshTime);
         }, 0);
     </script>
 </body>
