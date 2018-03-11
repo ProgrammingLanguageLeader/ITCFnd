@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Homework 0</title>
+</head>
+<body>
+    <script type="text/javascript">
+        function plus(...rest) {
+            let sum = 0;
+            rest.forEach( (arg) => {
+                sum += arg;
+            });
+            return sum;
+        }
+
+        console.log( `plus(1, 2) = ${plus(1, 2)}` );
+        console.log( `plus(2, 3, 5, 7, 3) = ${plus(2, 3, 5, 7, 3)}` );
+
+        function multiply(a, b) {
+            let product = 0;
+            for (let i = 0; i < b; i++) {
+                product = plus(product, a);
+            }
+            return product;
+        }
+
+        function multiplyAll(...rest) {
+            return rest.reduce(multiply);
+        }
+
+        console.log( `multiply(3, 10) = ${multiply(3, 10)}` );
+        console.log( `multiplyAll(2, 3, 5, 7, 3) = ${multiplyAll(2, 3, 5, 7, 3)}` );
+
+        function mergeArrays(array1, array2) {
+            return array1.concat(array2);
+        }
+
+        console.log( `mergeArrays([1, 2, 3], [4, 5]) = [${mergeArrays([1, 2, 3], [4, 5]).toString()}]` );
+
+        function objectToQueryString(params) {
+            let queryString = '';
+            for (let property in params) {
+                queryString += `${property}=${params[property]}&`;
+            }
+            queryString = queryString.slice(0, -1);
+            return encodeURI(queryString);
+        }
+
+        console.log(
+            objectToQueryString(
+                { name1: 'John', name2: 'Федор' }
+            )
+        );
+
+        const people = [
+            {
+                sex: 'male',
+                name: 'Dmitry',
+                favoriteFilm: 'The Imitation Game'
+            },
+            {
+                sex: 'female',
+                name: 'Veronika',
+                favoriteFilm: 'Dead Poets Society'
+            },
+            {
+                sex: 'female',
+                name: 'Salma',
+                favoriteFilm: '12 Years a Slave'
+            },
+            {
+                sex: 'male',
+                name: 'Alonzo',
+                favoriteFilm: 'The Great Gatsby'
+            }
+        ];
+
+        function filterFemales(people) {
+            return people.filter( person => person.sex == 'female' );
+        }
+
+        let females = filterFemales(people);
+        let femalesInfoArray = females.map(function(woman) {
+            return `${woman.name} - ${woman.favoriteFilm}`;
+        });
+        let femalesInfoString = '';
+        for (let i = 0; i < femalesInfoArray.length; i++) {
+            femalesInfoString += femalesInfoArray[i] + ', ';
+        }
+        femalesInfoString = femalesInfoString.slice(0, femalesInfoString.length - 2);
+        let filterFemalesOutput = `filterFemales(people) = [${femalesInfoString}]`;
+        console.log(filterFemalesOutput);
+
+        const AXIS_POINT = 0;
+        function getQuadrant(x, y) {
+            if (x > 0 && y > 0) {
+                return 1;
+            }
+            if (x < 0 && y > 0) {
+                return 2;
+            }
+            if (x < 0 && y < 0) {
+                return 3;
+            }
+            if (x > 0 && y < 0) {
+                return 4;
+            }
+            return AXIS_POINT;
+        }
+        let quadrant = getQuadrant(1, -1);
+        if (quadrant != AXIS_POINT) {
+            console.log( `getQuadrant(1, -1) = ${quadrant}` );
+        } else {
+            console.log('Point is on the coordinate axis');
+        }
+
+        function getIn(obj, path, defaultValue) {
+            if (obj && path.length) {
+                let property = path[0];
+                path = path.slice(1);
+                return getIn( obj[property], path, defaultValue );
+            } else if (!obj) {
+                return defaultValue;
+            }
+            return obj;
+        }
+
+        const person1 = {
+            address: {
+                street: "Кутузоский проспект"
+            }
+        }
+        const person2 = {
+            address: {}
+        }
+        console.log( getIn( person1, ['address', 'street'], 'Бомж' ) );
+        console.log( getIn( person2, ['address', 'street'], 'Бомж' ) );
+    </script>
+</body>
+</html>

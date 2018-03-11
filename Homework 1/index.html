@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+
+    <script src="reddit.js"></script>
+    <title>Homework 1</title>
+</head>
+<body>
+    <div id="loader"></div>
+    <div id="posts"></div>
+    <script type="text/javascript">
+        const refreshTime = 10000;
+
+        setTimeout( function tick() {
+            const posts = fetchPosts();
+            let divPosts = document.getElementById('posts');
+            let loader = document.getElementById('loader');
+
+            posts.then(posts => {
+                loader.style.display = 'block';
+                let postsHTML = posts.reduce( (postsHTML, post) => {
+                    const { title } = post.data;
+                    const { permalink } = post.data;
+                    const { thumbnail } = post.data;
+                    if (thumbnail != 'default') {
+                        return postsHTML +
+                        `<div class="post-with-thumbnail">
+                            <img src="${thumbnail}" alt="There must be an image">
+                            <a href="https://reddit.com/${permalink}">
+                                <p>${title}</p>
+                            </a>
+                        </div>`;
+                    } else {
+                        return postsHTML +
+                        `<div class="post-without-thumbnail">
+                            <a href="https://reddit.com/${permalink}">
+                                <p>${title}</p>
+                            </a>
+                        </div>`;
+                    }
+                }, '');
+                divPosts.innerHTML = postsHTML;
+                loader.style.display = 'none';
+            });
+            setTimeout(tick, refreshTime);
+        }, 0);
+    </script>
+</body>
+</html>
