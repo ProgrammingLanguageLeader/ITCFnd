@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 const Logo = styled.img.attrs({
-    src: 'img/logowhite.png',
     alt: 'Logo'
 })`
     max-width: 208px;

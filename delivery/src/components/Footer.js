@@ -69,7 +69,7 @@ const SocialIcon = ({ src, href, alt }) => (
     </a>
 );
 
-const Copyright = styled.p`
+const Copyright = Text.extend`
     text-align: center;
     line-height: 24px;
     margin-top: 40px;
@@ -82,10 +82,10 @@ const Copyright = styled.p`
 const Footer = () => {
     const title = "Компания";
     const links = [
-        <Navlink href="#">Для курьеров</Navlink>,
-        <Navlink href="#">Партнерство для ресторанов</Navlink>,
-        <Navlink href="#">Условия проведения акций</Navlink>,
-        <Navlink href="#">Контакты</Navlink>
+        <Navlink key="curier" href="#">Для курьеров</Navlink>,
+        <Navlink key="partnership" href="#">Партнерство для ресторанов</Navlink>,
+        <Navlink key="conditions" href="#">Условия проведения акций</Navlink>,
+        <Navlink key="contacts" href="#">Контакты</Navlink>
     ];
 
     return (
@@ -101,12 +101,10 @@ const Footer = () => {
                             <SocialIcon src="img/ig.png" href="#" alt="Instagram" />
                             <SocialIcon src="img/vk.png" href="#" alt="VK" />
                         </SocialIcons>
-                        <Text>
-                            <Copyright>
+                        <Copyright>
                                 &copy; 2009-2018 Delivery Club&trade;
                                 <br />Все права защищены
-                            </Copyright>
-                        </Text>
+                        </Copyright>
                     </Col>
                 </Row>
             </Grid>
