@@ -3,9 +3,19 @@ import { Grid, Row, Col } from 'react-flexbox-grid';
 import styled from 'styled-components';
 
 import Button from './Button';
+import Header from './Header';
 import Header1 from './Header1';
 import LeadText from './LeadText';
 import StoreCard from './StoreCard';
+import Footer from './Footer';
+
+const Homepage = () => (
+  <div>
+    <Header />
+    <Description />
+    <Footer />
+  </div>
+);
 
 const DescriptionCover = styled.img.attrs({
   src: "img/picpizzaaa.jpg"
@@ -69,4 +79,4 @@ const Description = () => {
   )
 };
 
-export default Description;
+export default Homepage;
