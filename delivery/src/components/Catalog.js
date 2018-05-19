@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 
+import Loader from './Loader';
 import Button from './Button';
 import Header from './Header';
 import { Header1 } from './TextHeaders';
@@ -20,6 +21,7 @@ class Main extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            uploaded: false,
             stores: [],
             limit: 16,
             offset: 0,
@@ -34,8 +36,12 @@ class Main extends React.Component {
     }
 
     async loadMoreStores() {
+        this.setState({
+            uploaded: false
+        })
         let newStores = await fetchStoresData(this.state.offset, this.state.limit);
         this.setState({
+            uploaded: true,
             stores: this.state.stores.concat(newStores),
             offset: this.state.offset + newStores.length,
             availableMore: newStores.length === this.state.limit,
@@ -71,6 +77,9 @@ class Main extends React.Component {
                 </Row>
                 <Row>
                     {stores}
+                </Row>
+                <Row center="xs">
+                    {!this.state.uploaded && <Loader />}
                 </Row>
                 <Row center="xs">
                     <Button hidden={!this.state.availableMore} onClick={this.loadMoreStores}>

@@ -7,10 +7,12 @@ import Button from './Button';
 import AboutButton from './AboutButton';
 import LoginButton from './LoginButton';
 import LeadText from './LeadText';
-import Stores from './Stores';
 import Footer from './Footer';
 import Logo from './Logo';
+import Loader from './Loader';
 import { LeadHeader1, LeadHeader2, Header1 } from './TextHeaders';
+import { fetchStoresData } from '../API';
+import StoreCard from './StoreCard';
 
 const Homepage = () => (
     <div>
@@ -92,24 +94,65 @@ const Description = () => (
     </Grid>
 );
 
-const StoresCatalog = () => (
-    <Grid>
-        <Row>
-            <Col sm={12}>
-                <Header1>
-                    Рестораны
-                </Header1>
-            </Col>
-        </Row>
-        <Row>
-            <Stores />
-        </Row>
-        <Row center="xs">
-            <Link to="/catalog">
-                <Button>Все рестораны</Button>
-            </Link>
-        </Row>
-    </Grid>
-);
+class StoresCatalog extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            stores: [],
+            uploaded: false,
+        };
+    }
+
+    async componentDidMount() {
+        let storesData = await fetchStoresData();
+        let stores = await storesData.map(store => {
+            let categories = store.categories.map(categoryData => {
+                return categoryData.name;
+            });
+            return (
+                <Col lg={3} md={6} sm={12} key={store.uuid}>
+                    <StoreCard 
+                        link={store.link}
+                        img={store.heroImageUrl}
+                        title={store.title}
+                        categories={categories}
+                        priceBucket={store.priceBucket}
+                        etaRange={store.etaRange}
+                        sellsAlcohol={store.sellsAlcohol}
+                    />
+                </Col>
+            );
+        });
+        this.setState({
+            stores: stores,
+            uploaded: true,
+        });
+    }
+
+    render() {
+        return (
+            <Grid>
+                <Row>
+                    <Col sm={12}>
+                        <Header1>
+                            Рестораны
+                        </Header1>
+                    </Col>
+                </Row>
+                <Row>
+                    {this.state.stores}
+                </Row>
+                <Row center="xs">
+                    {!this.state.uploaded && <Loader />}
+                </Row>
+                <Row center="xs">
+                    <Link to="/catalog">
+                        <Button>Все рестораны</Button>
+                    </Link>
+                </Row>
+            </Grid>
+        );
+    }
+}
 
 export default Homepage;
