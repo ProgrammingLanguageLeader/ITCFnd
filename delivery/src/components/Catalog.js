@@ -25,6 +25,8 @@ class Main extends React.Component {
             offset: 0,
             availableMore: true, 
         };
+
+        this.loadMoreStores = this.loadMoreStores.bind(this);
     }
 
     componentDidMount() {
@@ -71,7 +73,9 @@ class Main extends React.Component {
                     {stores}
                 </Row>
                 <Row center="xs">
-                    <Button disabled={!this.state.availableMore}>Больше ресторанов</Button>
+                    <Button hidden={!this.state.availableMore} onClick={this.loadMoreStores}>
+                        Больше ресторанов
+                    </Button>
                 </Row>
             </Grid>
         );
