@@ -37,74 +37,19 @@ const OrderInfo = styled.div`
     color: #ffffff;
 `;
 
-class StoreCard extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            link: '',
-            img: '',
-            title: '',
-            categories: [],
-            priceBucket: '',
-            etaRange: {
-                min: 0,
-                max: Number.MAX_SAFE_INTEGER,
-            },
-            sellsAlcohol: false,
-        };
-    }
-
-    componentWillMount() {
-        this.fetchStoreInfo(this.props.uuid)
-            .then(storeInfo => {
-                console.log(storeInfo);
-                let categories = [];
-                storeInfo.categories.forEach(category => {
-                    categories.push(category.keyName);
-                });
-                this.setState({
-                    link: storeInfo.link,
-                    img: storeInfo.heroImageUrl,
-                    title: storeInfo.title,
-                    categories: categories,
-                    priceBucket: storeInfo.priceBucket,
-                    etaRange: {
-                        min: storeInfo.etaRange.min,
-                        max: storeInfo.etaRange.max,
-                    },
-                    sellsAlcohol: Boolean(storeInfo.sellsAlcohol),
-                });
-            });
-    }
-
-    render() {
-        return (
-            <Link href={this.state.link}>
-                <Image src={this.state.img} />
-                <Title>{this.state.title}</Title>
-                <Text>
-                    {this.state.categories.join(', ')}
-                    {this.state.sellsAlcohol ? ', Алкоголь' : ''}
-                </Text>
-                <OrderInfo>{this.state.priceBucket}</OrderInfo>
-                <OrderInfo>{this.state.etaRange.min}-{this.state.etaRange.max} минут</OrderInfo>
-            </Link>
-        );
-    }
-
-    fetchStoreInfo(uuid) {
-        const url = `https://itc-web1-server.now.sh/store?uuid=${uuid}`;
-        return fetch(url)
-            .then(response => {
-                if (response.status !== 200) {
-                    return null;
-                }
-                return response.json();
-            })
-            .then(data => {
-                return data.payload;
-            });
-    }
-}
+const StoreCard = ({ link, img, title, categories, sellsAlcohol, priceBucket, etaRange }) => (
+    <div>
+        <Link href={link}>
+            <Image src={img} />
+            <Title>{title}</Title>
+            <Text>
+                {categories.join(', ')}
+                {sellsAlcohol ? ', Алкоголь' : ''}
+            </Text>
+            <OrderInfo>{priceBucket}</OrderInfo>
+            <OrderInfo>{etaRange.min}-{etaRange.max} минут</OrderInfo>
+        </Link>
+    </div>
+);
 
 export default StoreCard;
