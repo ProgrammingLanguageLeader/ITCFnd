@@ -10,7 +10,7 @@ const NotFound404 = () => (
         <h1>404</h1>
         <p>Страница не найдена</p>
     </div>
-  );
+);
 
 class App extends Component {
     render() {
@@ -18,7 +18,7 @@ class App extends Component {
             <BrowserRouter>
                 <Switch>
                     <Route exact path="/" component={Homepage} />
-                    <Route exact path="/catalog" component={Catalog} />
+                    <Route path="/catalog" component={Catalog} />
                     <Route component={NotFound404} />
                 </Switch>
             </BrowserRouter>
