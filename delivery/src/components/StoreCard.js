@@ -23,18 +23,19 @@ const Title = styled.h2`
 `;
 
 const Text = styled.p`
-    font-size: 18px;
+    font-size: 12pt;
     margin: 6px 0 6px 0;
 `;
 
 const OrderInfo = styled.div`
     display: inline-block;
-    border-radius: 10px;
-    margin: 3px;
-    padding: 2px 4px 2px 4px;
-    font-size: 24px;
-    background-color: #3b3b3b;
-    color: #ffffff;
+    border-radius: 16px;
+    margin-top: 9px;
+    margin-right: 9px;
+
+    padding: 4px 16px 4px 16px;
+    font-size: 14pt;
+    background-color: #dadada;
 `;
 
 const StoreCard = ({ link, img, title, categories, sellsAlcohol, priceBucket, etaRange }) => (
@@ -44,10 +45,10 @@ const StoreCard = ({ link, img, title, categories, sellsAlcohol, priceBucket, et
             <Title>{title}</Title>
             <Text>
                 {categories.join(', ')}
-                {sellsAlcohol ? ', Алкоголь' : ''}
             </Text>
             <OrderInfo>{priceBucket}</OrderInfo>
             <OrderInfo>{etaRange.min}-{etaRange.max} минут</OrderInfo>
+            {sellsAlcohol && (<OrderInfo>Алкоголь</OrderInfo>)}
         </Link>
     </div>
 );
